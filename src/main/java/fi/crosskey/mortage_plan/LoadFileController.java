@@ -9,6 +9,8 @@ public class LoadFileController {
 
     @FXML
     protected void loadFile() {
+        LoanCalculator calculator = new LoanCalculator();
+
 
 
         resultDisplay.setText("Prospect 1: CustomerName wants to borrow X € for a period of Z years and pay E € each month");
