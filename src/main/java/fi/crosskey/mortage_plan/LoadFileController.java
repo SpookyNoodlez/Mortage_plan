@@ -33,7 +33,7 @@ public class LoadFileController {
         for(int i = 0;i < prospects.size();i++){
             //Negative values can only be entered by my bad data prospect
             if (prospects.get(i).totalLoan() < 0){
-                displayString += "BAD ENTRY! CHECK \"prospects.txt\" AT THE FOLLOWING LINE: " + i + "\n";
+                displayString += "BAD ENTRY! CHECK \"prospects.txt\" AT LINE: " + (i+1) + "\n";
             }
             //Concatenate string to display
             else{
@@ -88,10 +88,10 @@ public class LoadFileController {
 
             //All remaining tokens make up the name
             String name = "";
-            for(int i = 0; i < tokens.length-4; i++){
+            for(int i = 0; i <= tokens.length-4; i++){
                 name += tokens[i];
                 //add back the comma
-                if(i != 0){
+                if(i != tokens.length-4){
                     name += ",";
                 }
             }
