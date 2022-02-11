@@ -52,23 +52,33 @@ public class LoadFileController {
     }
 
     private Prospect stringToProspect(String line){
-        //Regular expression that ignores delimiters(commas) in quotes
-        //String regex = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-        String regex = ",";
 
+        final String quotedNameRegex = "(\"[^\"]+\")"; //Anything except quotes between quotes
+                                          //OR
+        final String unquotedNameRegex = "([^,]+)"; //Anything except commas
+
+        final String totalLoanRegex = "(\\d+\\.?\\d*)"; //One or more numbers followed by zero or one dots followed by any number of numbers
+        final String interestRegex = "(\\d\\d?\\.?\\d*)"; //One or two numbers followed by zero or one dots followed by any number of numbers
+        final String yearsRegex = "(\\d+)"; //One or more numbers
+
+        String completedRegex = "(" + quotedNameRegex + "|" + unquotedNameRegex  + ")" + ","
+                + totalLoanRegex + "," + interestRegex + "," + yearsRegex;
         //TODO: ADD DATA VERIFICATION
-        String[] tokens = line.split(regex);
-        String name = tokens[0];
-        double totalLoan = Double.parseDouble(tokens[1]);
-        float interest = Float.parseFloat(tokens[2]) / 100; //convert from percent to decimal
-        int years = Integer.parseInt(tokens[3]);
+        try{
+            String[] tokens = line.split(completedRegex);
+            String name = tokens[0];
+            double totalLoan = Double.parseDouble(tokens[1]);
+            float interest = Float.parseFloat(tokens[2]) / 100.f; //convert from percent to decimal
+            int years = Integer.parseInt(tokens[3]);
 
-        LoanCalculator calculator = new LoanCalculator();
-        double monthlyPayment = calculator.calculateMonthlyPayment(totalLoan,interest,years);
+            LoanCalculator calculator = new LoanCalculator();
+            double monthlyPayment = calculator.calculateMonthlyPayment(totalLoan,interest,years);
 
-        return new Prospect(name, totalLoan, interest, years, monthlyPayment);
-
-        //If data does not match regular expression
-        //return new Prospect("Bad data",-1,-1,-1,-1);
+            return new Prospect(name, totalLoan, interest, years, monthlyPayment);
+        }
+        catch(NumberFormatException e){
+            //If letters go in the number fields return a bad prospect to show a load error in the list
+            return new Prospect("Bad data",-1,-1,-1,-1);
+        }
     }
 }
