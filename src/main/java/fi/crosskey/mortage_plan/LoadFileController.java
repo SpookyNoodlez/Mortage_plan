@@ -21,8 +21,6 @@ public class LoadFileController {
             String currentLine = reader.readLine();
             //read lines until reaching end of file
             while((currentLine = reader.readLine()) != null){
-                //TEST
-                //resultDisplay.setText(currentLine);
                 //Split the string up and put it in a Prospect record
                 prospects.add(stringToProspect(currentLine));
             }
@@ -31,21 +29,27 @@ public class LoadFileController {
             e.printStackTrace();
         }
 
-        //Concatenate string to display
         String displayString = "";
         for(int i = 0;i < prospects.size();i++){
-            displayString = displayString
-                            +"Prospect "
-                            +(i+1)+": "
-                            +prospects.get(i).customerName()
-                            +" wants to borrow "
-                            +prospects.get(i).totalLoan()
-                            +" € for a period of "
-                            +prospects.get(i).years()
-                            +" years and pay "
-                            +prospects.get(i).monthlyPayment()
-                            +" € each month"
-                            +"\n";
+            //Negative values can only be entered by my bad data prospect
+            if (prospects.get(i).totalLoan() < 0){
+                displayString += "BAD ENTRY! CHECK \"prospects.txt\" AT THE FOLLOWING LINE: " + i + "\n";
+            }
+            //Concatenate string to display
+            else{
+                displayString = displayString
+                        +"Prospect "
+                        +(i+1)+": "
+                        +prospects.get(i).customerName()
+                        +" wants to borrow "
+                        +prospects.get(i).totalLoan()
+                        +" € for a period of "
+                        +prospects.get(i).years()
+                        +" years and pay "
+                        +prospects.get(i).monthlyPayment()
+                        +" € each month"
+                        +"\n";
+            }
         }
         //Display result
         resultDisplay.setText(displayString);
@@ -64,12 +68,36 @@ public class LoadFileController {
         String completedRegex = "(" + quotedNameRegex + "|" + unquotedNameRegex  + ")" + ","
                 + totalLoanRegex + "," + interestRegex + "," + yearsRegex;
         //TODO: ADD DATA VERIFICATION
+
+        //test
+        boolean b = line.matches(completedRegex);
+
+        //If the line doesn't fit the format
+        if (!line.matches(completedRegex)){
+            return new Prospect("Bad data",-1,-1,-1,-1);
+        }
+
         try{
-            String[] tokens = line.split(completedRegex);
-            String name = tokens[0];
-            double totalLoan = Double.parseDouble(tokens[1]);
-            float interest = Float.parseFloat(tokens[2]) / 100.f; //convert from percent to decimal
-            int years = Integer.parseInt(tokens[3]);
+            //Split by commas, go backwards and combine the last ones
+            String[] tokens = line.split(",");
+
+            //The last tokens are always years followed by interest and the loan amount
+            int years = Integer.parseInt(tokens[tokens.length-1]);
+            float interest = Float.parseFloat(tokens[tokens.length-2]) / 100.f; //convert from percent to decimal
+            double totalLoan = Double.parseDouble(tokens[tokens.length-3]);
+
+            //All remaining tokens make up the name
+            String name = "";
+            for(int i = 0; i < tokens.length-4; i++){
+                name += tokens[i];
+                //add back the comma
+                if(i != 0){
+                    name += ",";
+                }
+            }
+
+
+
 
             LoanCalculator calculator = new LoanCalculator();
             double monthlyPayment = calculator.calculateMonthlyPayment(totalLoan,interest,years);
