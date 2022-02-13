@@ -31,7 +31,7 @@ public class LoadFileController {
 
         String displayString = "";
         for(int i = 0;i < prospects.size();i++){
-            //Negative values can only be entered by my bad data prospect
+            //Negative values can only be entered by my 'bad data' prospect
             if (prospects.get(i).totalLoan() < 0){
                 displayString += "BAD ENTRY! CHECK \"prospects.txt\" AT LINE: " + (i+1) + "\n";
             }
@@ -67,10 +67,6 @@ public class LoadFileController {
 
         String completedRegex = "(" + quotedNameRegex + "|" + unquotedNameRegex  + ")" + ","
                 + totalLoanRegex + "," + interestRegex + "," + yearsRegex;
-        //TODO: ADD DATA VERIFICATION
-
-        //test
-        boolean b = line.matches(completedRegex);
 
         //If the line doesn't fit the format
         if (!line.matches(completedRegex)){
