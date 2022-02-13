@@ -97,6 +97,8 @@ public class LoadFileController {
                     name += ",";
                 }
             }
+            //Remove quotes from the name
+            name = name.replace("\"","");
 
             LoanCalculator calculator = new LoanCalculator();
             double monthlyPayment = calculator.calculateMonthlyPayment(totalLoan,interest,years);
