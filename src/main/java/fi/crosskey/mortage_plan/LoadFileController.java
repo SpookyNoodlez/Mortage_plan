@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class LoadFileController {
@@ -15,7 +17,11 @@ public class LoadFileController {
         ArrayList<Prospect> prospects = new ArrayList<>();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("prospects.txt"));
+            //Making sure the file is read using UTF_8 charset
+            File file = new File("prospects.txt");
+            FileInputStream fis = new FileInputStream(file);
+            InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(isr);
 
             //Get rid of the first descriptive line
             String currentLine = reader.readLine();
@@ -91,9 +97,6 @@ public class LoadFileController {
                     name += ",";
                 }
             }
-
-
-
 
             LoanCalculator calculator = new LoanCalculator();
             double monthlyPayment = calculator.calculateMonthlyPayment(totalLoan,interest,years);
