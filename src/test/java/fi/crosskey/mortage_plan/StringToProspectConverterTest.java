@@ -8,14 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StringToProspectConverterTest {
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     void stringToProspectTest() {
         StringToProspectConverter converter = new StringToProspectConverter();

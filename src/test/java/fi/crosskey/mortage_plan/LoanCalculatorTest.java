@@ -18,8 +18,9 @@ class LoanCalculatorTest {
         result = calculator.calculateMonthlyPayment(7000, 0.05F, 10);
         assertTrue(result>74.D && result<76.D);
 
-        result = calculator.calculateMonthlyPayment(100.53D, 0.60F, 93);
-        //assertTrue(result == 7.523928986741657E20);
+        //Something's wrong...
+        result = calculator.calculateMonthlyPayment(13300.53D, 0.1F, 93);
+        assertTrue(result > 110.8D && result < 110.9D);
 
         //Results don't exactly line up with my calculations using the formula...
         //Might have something to do with me using different datatypes for numbers
