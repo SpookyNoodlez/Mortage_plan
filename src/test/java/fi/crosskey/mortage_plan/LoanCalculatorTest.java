@@ -21,9 +21,7 @@ class LoanCalculatorTest {
         result = calculator.calculateMonthlyPayment(100.53D, 0.60F, 93);
         assertTrue(result>5.D && result<8.D);
 
-        //Result don't exactly line up with my calculations using the formula...
+        //Results don't exactly line up with my calculations using the formula...
         //Might have something to do with me using different datatypes for numbers
     }
-
-    //@CsvSource({"5000, 1.7, 2", "7000, 5, 10", "100.53, 60, 90"})
 }

@@ -70,7 +70,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>fi.crosskey.mortage_plan/fi.crosskey.mortage_plan.MortageApplication</mainClass>
+                            <mainClass>fi.crosskey.mortage_plan/fi.crosskey.mortage_plan.MortgageApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

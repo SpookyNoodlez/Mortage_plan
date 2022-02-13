@@ -7,12 +7,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MortageApplication extends Application {
+public class MortgageApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MortageApplication.class.getResource("loadFileView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MortgageApplication.class.getResource("loadFileView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 400);
-        stage.setTitle("Mortage Calculator");
+        stage.setTitle("Mortgage Calculator");
         stage.setScene(scene);
         stage.show();
     }
